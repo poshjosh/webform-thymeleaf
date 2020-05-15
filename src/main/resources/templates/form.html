@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{base}">
+    <head>
+        <meta name="description" th:content="'Enter ' + ${form.displayName} + ' Form Details'"/>
+        <title>Enter [[${form.displayName}]] Form Details</title>
+    </head>
+    <body>
+        
+        <th:block layout:fragment="breadcrumb">
+            <span class="breadcrumb-item"><a th:href="@{/}">Home</a></span>
+            &emsp;&gt;&emsp;<span class="breadcrumb-item">[[${form.displayName}]] Form</span>
+        </th:block>
+        
+        <th:block layout:fragment="page_content_heading">
+            <th:block th:text="'Enter ' + ${form.displayName} + ' Details'"/>
+        </th:block>
+        
+        <th:block layout:fragment="page_content">
+
+            <p class="bold">Asterixed (<font class="red heavy-max"> * </font>) fields are mandatory.</p>
+
+            <form action="#" th:action="@{/{action}/{modelname}/validate(action=${action},modelname=${modelname})}" 
+                  th:object="${modelobject}" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" name="fid" th:value="${fid}"/>
+                <input type="hidden" name="modelid" th:value="${modelid}"/>
+                <th:block th:each="modelfield: ${modelfields}">
+                    <input type="hidden" name="modelfields" th:value="${modelfield}"/>
+                </th:block>
+                
+                <table class="table">
+
+                    <th:block th:each="formField: ${form.formFields}">
+                        
+                        <th:block th:if="${modelfields == null || modelfields.empty || #lists.contains(modelfields, formField.name)}">
+                            <tr class="form-row" th:insert="fragments/formrow.html :: formRow(formField=${formField}, disabled=null)">
+                            </tr>
+                        </th:block>
+                    </th:block>    
+
+                    <tr class="form-row">
+                        <td colspan="3">
+                            <input class="button primary-button" type="reset" value="Reset" />
+                            &emsp;<input class="button primary-button" type="submit" value="Submit" />
+                        </td>    
+                    </tr>
+
+                </table>
+            </form>    
+        </th:block>
+        
+    </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="/webform.css"/>
+        <title>FormField Fragment</title>
+    </head>
+    <body>
+        <th:block th:fragment="formField(formField, disabled)">
+            <th:block th:if="${formField.multiChoice}">
+
+                <th:block th:if="${!formField.choices.empty}">
+                    <select th:disabled="${disabled}"
+                            th:multiple="${formField.multiValue}"
+                            th:style="'width:'+${formField.size}" 
+                            class="select" th:id="${formField.id}" 
+                            th:name="${formField.name}" th:size="${formField.multiValue ? 3 : 1}"
+                            th:required="${formField.required}">
+
+                        <option disabled th:text="'Select ' + ${formField.label}"></option>
+
+                        <th:block th:each="entry: ${formField.choices}">
+                            <th:block th:if="${formField.multiValue}">
+                                <option th:selected="${formField.value != null && #lists.contains(formField.value, entry.key)}"
+                                        th:name="${formField.name}"
+                                        th:value="${entry.key}" 
+                                        th:text="${entry.value}"/>
+                            </th:block>
+                            <th:block th:unless="${formField.multiValue}">
+                                <option th:selected="${formField.value == entry.key || formField.value == entry.value}"
+                                        th:name="${formField.name}"
+                                        th:value="${entry.key}" 
+                                        th:text="${entry.value}"/>
+                            </th:block>
+                        </th:block>
+
+                    </select>
+                </th:block>
+
+            </th:block>
+            <th:block th:unless="${formField.multiChoice}">
+
+                <th:block th:if="${formField.type == 'checkbox'}">
+                    
+                    <!-- If value == true set the state to checked -->
+                    <th:block th:if="${formField.value == true}">
+                        <input checked
+                               th:disabled="${disabled}"  
+                               class="input" th:id="${formField.id}" 
+                               th:name="${formField.name}" 
+                               th:type="${formField.type}" th:required="${!formField.optional}"/>
+                    </th:block>    
+                    <th:block th:unless="${formField.value == true}">
+                        <input th:disabled="${disabled}"  
+                               class="input" th:id="${formField.id}" 
+                               th:name="${formField.name}" 
+                               th:type="${formField.type}" th:required="${!formField.optional}"/>
+                    </th:block>    
+                </th:block>
+                <th:block th:unless="${formField.type == 'checkbox'}">
+                    
+                    <!-- We display file as text if the form field is disabled -->
+                    <th:block th:if="${formField.type == 'file'}">
+                        <input th:disabled="${disabled}"
+                               class="input" th:id="${formField.id}" 
+                               th:name="${formField.name}" th:value="${formField.value}"
+                               th:type="${disabled} ? 'text' : 'file'" 
+                               th:required="${!formField.optional}" 
+                               size="35" th:maxlength="${formField.maxLength}"/>
+                    </th:block>
+                    <th:block th:unless="${formField.type == 'file'}">
+                        <th:block th:if="${formField.numberOfLines &lt; 2}">
+                            <input th:disabled="${disabled}"
+                                   class="input" th:id="${formField.id}" 
+                                   th:name="${formField.name}" th:value="${formField.value}"
+                                   th:type="${formField.type}" th:required="${!formField.optional}" 
+                                   size="35" th:maxlength="${formField.maxLength}"/>
+                        </th:block>
+                        <th:block th:unless="${formField.numberOfLines &lt; 2}">
+                            <textarea th:disabled="${disabled}" 
+                                      th:rows="${formField.numberOfLines}" 
+                                      class="textarea" th:id="${formField.id}" 
+                                      th:name="${formField.name}" th:text="${formField.value}"
+                                      th:required="${!formField.optional}">
+                            </textarea>
+                        </th:block>
+                    </th:block>    
+                </th:block>    
+            </th:block>    
+        </th:block>
+
+    </body>
+</html>

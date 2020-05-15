@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{base}">
+    <head>
+        <meta name="description" content="webform app hope page"/>
+        <title>webform app home page</title>
+    </head>
+    <body>
+        
+        <th:block layout:fragment="breadcrumb">
+            <span class="breadcrumb-item">Home</span>
+        </th:block>
+        
+        <th:block layout:fragment="page_content_heading">
+            <h3><a href="https://github.com/poshjosh/webform">webform</a> app</h3>
+            <p>
+                A spring boot application which auto generates HTML forms
+                for your web application.
+            </p>
+            <p>
+                Three default entities are included and you could generate
+                forms for each of them via the following links:
+            </p>
+            <ol>
+                <li><a href="/create/blog">Create Blog</a></li> 
+                <li><a href="/create/post">Create Post</a></li> 
+                <li><a href="/create/tag">Create Tag</a></li> 
+            </ol>
+        </th:block>
+        
+        <th:block layout:fragment="scripts"></th:block>
+    </body>
+</html>

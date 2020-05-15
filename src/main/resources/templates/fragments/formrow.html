@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="/webform.css"/>
+        <title>From Row Fragment</title>
+    </head>
+    <body>
+        <th:block th:fragment="formRow(formField, disabled)">
+
+            <td class="form-col-0 nowrap">
+                <span class="nowrap">
+                    <label class="nowrap" th:for="${formField.id}" th:text="${formField.label}"/>
+                    <font class="red heavy-max" th:if="${!formField.optional}"> * </font>
+                </span>
+            </td>
+
+            <td class="form-col-1" th:insert="fragments/formfield.html :: formField(formField=${formField}, disabled=${disabled})">
+                
+            </td>
+            
+            <td class="form-col-2" th:id="${formField.name}+'Message'" th:text="${formField.advice}"/>
+
+        </th:block>
+    </body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{base}">
+    <head>
+        <meta name="description" th:content="'Displaying details for selected ' + ${form.displayName}"/>
+        <title>Displaying details for selected [[${form.displayName}]]</title>
+    </head>
+    <body>
+        
+        <th:block layout:fragment="breadcrumb">
+            <span class="breadcrumb-item"><a th:href="@{/}">Home</a></span>
+            &emsp;&gt;&emsp;<span class="breadcrumb-item">Selected [[${form.displayName}]] Details</span>
+        </th:block>
+        
+        <th:block layout:fragment="sidebar">
+            <div class="sidebar">
+                <div class="sidebar-heading face-0">Update</div>
+                <div class="sidebar-body">
+                    <div class="sidebar-item">
+                        <a th:text="${'Edit ' + form.displayName}" 
+                           th:href="@{/update/{modelname}?modelid={modelid}(modelname=${modelname},modelid=${modelid})}">
+                            Edit this
+                        </a>  
+                    </div>
+                    <div class="sidebar-item">
+                        <a th:text="${'Delete ' + form.displayName}" 
+                           th:href="@{/delete/{modelname}?modelid={modelid}(modelname=${modelname},modelid=${modelid})}">
+                            Delete this
+                        </a>  
+                    </div>
+                </div>
+            </div>
+        </th:block>
+
+        <th:block layout:fragment="page_content_heading">
+            <th:block th:text="'Diplaying details for selected ' + ${form.displayName}"/>
+        </th:block>
+
+        <th:block layout:fragment="page_content">
+            
+            <form>
+                <table class="table">
+                    <th:block th:each="formField: ${form.formFields}">
+                        
+                        <th:block th:if="${modelfields == null || modelfields.empty || #lists.contains(modelfields, formField.name)}">
+                            <tr class="form-row" th:insert="fragments/formrow.html :: formRow(formField=${formField}, disabled='true')">
+                            </tr>
+                        </th:block>
+                    </th:block>    
+                </table>
+            </form>  
+            
+        </th:block>    
+
+    </body>
+</html>

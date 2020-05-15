@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{base}">
+    <head>
+        <meta name="description" content="Success Page"/>
+        <title>Success Page</title>
+    </head>
+    <body>
+        
+        <th:block layout:fragment="breadcrumb">
+            <span class="breadcrumb-item"><a th:href="@{/}">Home</a></span>
+            &emsp;&gt;&emsp;<span class="breadcrumb-item">Success Page</span>
+        </th:block>
+        
+        <th:block layout:fragment="page_content_heading">The operation was successful</th:block>
+        
+    </body>
+</html>

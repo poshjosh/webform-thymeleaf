@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"   
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">webform app</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="/webform.css"/>
+    </head>
+    <body>
+ 
+        <table>
+            <tr>
+                <td>
+                    <img style="margin:0.5em;" th:src="@{/logo.png}" alt="app logo"/>
+                </td>
+                <td style="width:100%; font-size:2.5em; font-weight:700; text-align:center;">
+                    <a href="https://github.com/poshjosh/webform">webform</a> app
+                </td>
+            </tr>
+        </table>
+
+        <div class="navbar face-0">
+            <span th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy HH:mm')}"/>
+        </div>
+
+        <div class="container">
+            <div class="breadcrumb">
+                <th:block layout:fragment="breadcrumb">
+                </th:block>
+            </div>
+            <div class="content">
+
+                <table class="content-table">
+                    <tr class="content-row">
+                        <td class="content-col-0">
+                            <th:block layout:fragment="sidebar">
+                            </th:block>
+                            <th:block th:insert="fragments/sidebar.html">
+                            </th:block>
+                        </td>
+                        <td class="content-col-1">
+                            <h3 id="page_content_heading">
+                                <th:block layout:fragment="page_content_heading"></th:block>
+                            </h3>
+
+                            <p id="errors" class="errormessage" 
+                               th:if="${errors}" th:each="error: ${errors}" th:text="${error}"/>
+                            <p id="infos" class="infomessage" 
+                               th:if="${messages}" th:each="message: ${messages}" th:text="${message}"/>
+
+                            <div layout:fragment="page_content" id="page_content"></div>
+                        </td>    
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <th:block layout:fragment="scripts">
+        </th:block>
+    </body>
+ 
+</html>
