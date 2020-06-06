@@ -25,7 +25,7 @@ public enum BlogType {
     private String name;
     
     private BlogType() {
-        this.id = (short)(this.ordinal() + 1);
+        this.id = (short)(this.ordinal());
     }
 
     public Short getId() {
@@ -46,6 +46,6 @@ public enum BlogType {
 
     @Override
     public String toString() {
-        return "com.bc.webform.app.domain.enums.BlogType[ id=" + id + " ]";
+        return "com.looseboxes.webform.thym.domain.enums.BlogType[ id=" + id + " ]";
     }
 }

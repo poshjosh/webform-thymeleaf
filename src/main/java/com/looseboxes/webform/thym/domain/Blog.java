@@ -2,6 +2,7 @@ package com.looseboxes.webform.thym.domain;
 
 import com.looseboxes.webform.thym.domain.enums.BlogType;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,6 +53,11 @@ public class Blog implements Serializable {
     @Size(max = 255)
     @Column(name = "image", length = 255)
     private String image;
+    
+    @Basic(optional = false)
+    @Column(name = "time_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeCreated;
     
     @OneToMany(mappedBy = "blog")
     private List<Post> postList;
@@ -108,6 +116,14 @@ public class Blog implements Serializable {
         this.image = image;
     }
 
+    public Date getTimeCreated() {
+        return timeCreated;
+    }
+
+    public void setTimeCreated(Date timeCreated) {
+        this.timeCreated = timeCreated;
+    }
+    
     @XmlTransient
     public List<Post> getPostList() {
         return postList;
@@ -139,6 +155,6 @@ public class Blog implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bc.webform.app.domain.Blog[ id=" + id + " ]";
+        return "com.looseboxes.webform.thym.domain.Blog[ id=" + id + " ]";
     }
 }

@@ -24,9 +24,9 @@
 
             <form>
                 <table class="table">
-                    <th:block th:each="formField: ${form.formFields}">
-                        <th:block th:if="${modelfields == null || modelfields.empty || #lists.contains(modelfields, formField.name)}">
-                            <tr class="form-row" th:insert="fragments/formrow.html :: formRow(formField=${formField}, disabled='true')">
+                    <th:block th:each="formMember: ${form.nonHiddenMembers}">
+                        <th:block th:if="${modelfields == null || modelfields.empty || #lists.contains(modelfields, formMember.name)}">
+                            <tr class="form-row" th:insert="fragments/formrow.html :: formRow(formMember=${formMember}, disabled='true')">
                             </tr>
                         </th:block>
                     </th:block>    
@@ -35,16 +35,20 @@
 
             <form id="form.back" action="#" 
                   th:action="@{/{action}/{modelname}(action=${action},modelname=${modelname})}">
+                <input type="hidden" name="parentfid" th:value="${parentfid}"/>
                 <input type="hidden" name="fid" th:value="${fid}"/>
-                <input type="hidden" name="modelid" th:value="${modelid}"/>
+                <input type="hidden" name="mid" th:value="${mid}"/>
+                <input type="hidden" name="targetOnCompletion" th:value="${targetOnCompletion}"/>
                 <th:block th:each="modelfield: ${modelfields}">
                     <input type="hidden" name="modelfields" th:value="${modelfield}"/>
                 </th:block>
             </form>
             <form id="form.submit" action="#" 
                   th:action="@{/{action}/{modelname}/submit(action=${action},modelname=${modelname})}">
+                <input type="hidden" name="parentfid" th:value="${parentfid}"/>
                 <input type="hidden" name="fid" th:value="${fid}"/>
-                <input type="hidden" name="modelid" th:value="${modelid}"/>
+                <input type="hidden" name="mid" th:value="${mid}"/>
+                <input type="hidden" name="targetOnCompletion" th:value="${targetOnCompletion}"/>
                 <th:block th:each="modelfield: ${modelfields}">
                     <input type="hidden" name="modelfields" th:value="${modelfield}"/>
                 </th:block>

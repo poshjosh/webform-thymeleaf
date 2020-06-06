@@ -15,7 +15,7 @@
  */
 package com.looseboxes.webform.thym;
 
-import com.looseboxes.webform.thym.controllers.FormControllerImpl;
+import com.looseboxes.webform.thym.controllers.FormControllerHtmlImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.*;
@@ -24,10 +24,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * @author USER
  */
-@SpringBootTest(classes=WebformApplication.class)
+@SpringBootTest(
+        classes={
+            com.looseboxes.webform.thym.WebformApplication.class, 
+            com.looseboxes.webform.WebformBasePackageClass.class})
+
 public class ControllersSmokeIT {
 
-    @Autowired private FormControllerImpl formController;
+    @Autowired private FormControllerHtmlImpl formController;
     
     @Test
     public void application_WhenRun_ShouldLoadFormController() throws Exception {

@@ -26,18 +26,22 @@
             <form action="#" th:action="@{/{action}/{modelname}/validate(action=${action},modelname=${modelname})}" 
                   th:object="${modelobject}" method="post" enctype="multipart/form-data">
 
+                <input type="hidden" name="parentfid" th:value="${parentfid}"/>
                 <input type="hidden" name="fid" th:value="${fid}"/>
-                <input type="hidden" name="modelid" th:value="${modelid}"/>
+                <input type="hidden" name="mid" th:value="${mid}"/>
+                <input type="hidden" name="targetOnCompletion" th:value="${targetOnCompletion}"/>
                 <th:block th:each="modelfield: ${modelfields}">
                     <input type="hidden" name="modelfields" th:value="${modelfield}"/>
                 </th:block>
-                
+                <th:block th:each="formMember: ${form.hiddenMembers}">
+                    <input type="hidden" name="${formMember.name}" th:value="${formMember.value}"/>
+                </th:block>
                 <table class="table">
 
-                    <th:block th:each="formField: ${form.formFields}">
+                    <th:block th:each="formMember: ${form.nonHiddenMembers}">
                         
-                        <th:block th:if="${modelfields == null || modelfields.empty || #lists.contains(modelfields, formField.name)}">
-                            <tr class="form-row" th:insert="fragments/formrow.html :: formRow(formField=${formField}, disabled=null)">
+                        <th:block th:if="${modelfields == null || modelfields.empty || #lists.contains(modelfields, formMember.name)}">
+                            <tr class="form-row" th:insert="fragments/formrow.html :: formRow(formMember=${formMember}, disabled=null)">
                             </tr>
                         </th:block>
                     </th:block>    

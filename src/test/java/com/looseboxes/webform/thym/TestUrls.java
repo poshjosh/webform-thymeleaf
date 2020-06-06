@@ -1,7 +1,6 @@
 package com.looseboxes.webform.thym;
 
 import com.bc.webform.functions.TypeTests;
-import com.looseboxes.webform.CrudActionNames;
 import com.looseboxes.webform.Params;
 import com.looseboxes.webform.thym.domain.Blog;
 import com.looseboxes.webform.thym.domain.Post;
@@ -17,11 +16,32 @@ import java.util.Objects;
 import org.springframework.beans.ConfigurablePropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.http.HttpMethod;
+import com.looseboxes.webform.CRUDAction;
 
 /**
  * @author hp
  */
 public class TestUrls extends TestBase{
+    
+    private static final Map<String, Integer> counts = new HashMap<>();
+    public static Integer incrementCount(String modelname) {
+        Integer count = counts.getOrDefault(modelname, 0);
+        ++count;
+        counts.put(modelname, count);
+        return count;
+    }
+    public static Integer decrementCount(String modelname) {
+        Integer count = counts.getOrDefault(modelname, 0);
+        if(count != 0) {
+            --count;
+            counts.put(modelname, count);
+        }
+        return count;
+    }
+    public static Integer getCount(String modelname, Integer resultIfNone) {
+        Integer count = counts.getOrDefault(modelname, resultIfNone);
+        return count;
+    }
     
     public static final String SUFFIX_VALIDATE = "/validate";
     public static final String SUFFIX_SUBMIT = "/submit";
@@ -33,16 +53,16 @@ public class TestUrls extends TestBase{
         this.typeTests = Objects.requireNonNull(typeTests);
     }
 
-    public String showForm(int port, String action, String modelname) {
-        return this.formUrl(port, action, modelname, "");
+    public String showForm(int port, CRUDAction action, String modelname) {
+        return this.formUrl(port, action, modelname, "", getModelId(action, modelname));
     }
 
-    public String validateForm(int port, String action, String modelname) {
-        return this.formUrl(port, action, modelname, TestUrls.SUFFIX_VALIDATE);
+    public String validateForm(int port, CRUDAction action, String modelname) {
+        return this.formUrl(port, action, modelname, TestUrls.SUFFIX_VALIDATE, -1);
     }
     
-    public String submitForm(int port, String action, String modelname) {
-        return this.formUrl(port, action, modelname, TestUrls.SUFFIX_SUBMIT);
+    public String submitForm(int port, CRUDAction action, String modelname) {
+        return this.formUrl(port, action, modelname, TestUrls.SUFFIX_SUBMIT, -1);
     }
 
     public Map getFormParameters(String url, String modelname) {
@@ -99,8 +119,12 @@ public class TestUrls extends TestBase{
             blog.setType(BlogType.FASHION);
             model = blog;
         }else if("post".equalsIgnoreCase(modelname)){
+            final Integer blogCount = TestUrls.getCount("blog", 0);
+            if(blogCount == 0) {
+                throw new IllegalStateException("No blog has been created. Create a blog first");
+            }
             Post post = new Post();
-            post.setBlog(new Blog(1));
+            post.setBlog(new Blog(blogCount));
             post.setContent("Sample post content");
             post.setTimeCreated(new Date());
             post.setTimeModified(new Date());
@@ -153,21 +177,37 @@ public class TestUrls extends TestBase{
         return url.contains(TestUrls.SUFFIX_VALIDATE) || url.contains(TestUrls.SUFFIX_SUBMIT);
     }
     
-    public String formUrl(int port, String action, String modelname, String suffix) {
+    public String formUrl(int port, CRUDAction action, String modelname, String suffix, int modelid) {
         
         String url = this.baseCrud(port, action, modelname) + suffix;
         
-        if(CrudActionNames.READ.equals(action) || 
-                CrudActionNames.UPDATE.equals(action) ||
-                CrudActionNames.DELETE.equals(action)) {
+        if(modelid > -1) {
             
-            url = url + '?' + Params.MODELID + '=' + 1;
+            url = url + '?' + Params.MODELID + '=' + modelid;
         }
         
         return url;
     }
+
+    public Integer getModelId(CRUDAction action, String modelname) {
+        if(this.requiresModelId(action)) {
+            final Integer count = TestUrls.getCount(modelname, -1);
+            if(count == -1) {
+                throw new IllegalStateException("No " + modelname + ", has been created. Create one first");
+            }
+            return count;
+        }else{
+            return -1;
+        }
+    }
     
-    public String baseCrud(int port, String action, String modelname) {
+    public boolean requiresModelId(CRUDAction action) {
+        return CRUDAction.read.equals(action) || 
+                CRUDAction.update.equals(action) ||
+                CRUDAction.delete.equals(action);
+    }
+    
+    public String baseCrud(int port, CRUDAction action, String modelname) {
         return "http://localhost:" + port + "/"+action+'/'+modelname;
     }
 }

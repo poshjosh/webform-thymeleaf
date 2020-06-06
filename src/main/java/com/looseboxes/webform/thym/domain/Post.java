@@ -165,6 +165,6 @@ public class Post implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bc.webform.app.domain.Post[ id=" + id + " ]";
+        return "com.looseboxes.webform.thym.domain.Post[ id=" + id + " ]";
     }
 }

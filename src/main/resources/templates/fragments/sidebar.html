@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" type="text/css" href="/webform.css"/>
-        <title>Sidebar Fragment</title>
-    </head>
-    <body>
-        <th:block th:fragment="sidebar">
-            <div class="sidebar">
-                <div class="sidebar-heading face-0">Category 1</div>
-                <div class="sidebar-body">
-                    <div class="sidebar-item">Subcategory A</div>
-                    <div class="sidebar-item">Subcategory B</div>
-                </div>
-            </div>
-            <div class="sidebar">
-                <div class="sidebar-heading face-0">Category 2</div>
-                <div class="sidebar-body">
-                    <div class="sidebar-item">Subcategory C</div>
-                    <div class="sidebar-item">Subcategory D</div>
-                </div>
-            </div>    
-        </th:block>
-    </body>
-</html>
+<th:block th:fragment="sidebar">
+    <div class="sidebar">
+        <div class="sidebar-heading face-0">Category 1</div>
+        <div class="sidebar-body">
+            <div class="sidebar-item">Subcategory A</div>
+            <div class="sidebar-item">Subcategory B</div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-heading face-0">Category 2</div>
+        <div class="sidebar-body">
+            <div class="sidebar-item">Subcategory C</div>
+            <div class="sidebar-item">Subcategory D</div>
+        </div>
+    </div>    
+</th:block>

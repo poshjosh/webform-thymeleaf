@@ -102,7 +102,7 @@ public class Tag implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bc.webform.app.domain.Tag[ id=" + id + " ]";
+        return "com.looseboxes.webform.thym.domain.Tag[ id=" + id + " ]";
     }
     
 }

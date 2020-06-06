@@ -3,8 +3,8 @@ package com.looseboxes.webform.thym;
 import com.bc.jpa.spring.DomainClasses;
 import com.bc.jpa.spring.DomainClassesBuilder;
 import com.looseboxes.webform.store.PropertyStoreImpl;
-import com.looseboxes.webform.store.PropertySearchImpl;
-import com.looseboxes.webform.store.PropertySearch;
+import com.looseboxes.webform.util.PropertySearchImpl;
+import com.looseboxes.webform.util.PropertySearch;
 import com.bc.jpa.spring.TypeFromNameResolver;
 import com.bc.jpa.spring.TypeFromNameResolverUsingClassNames;
 import com.bc.webform.functions.TypeTests;
@@ -31,7 +31,9 @@ public class TestConfig extends TestBase{
     @Bean public PropertySearch propertyAccess(String prefix, Properties props) {
         return new PropertySearchImpl(prefix, 
                 new PropertyStoreImpl(props), 
-                this.typeFromNameResolver());
+                this.typeFromNameResolver(),
+                ""
+        );
     }
     
     public String [] getEntityPackageNames() {

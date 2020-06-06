@@ -46,7 +46,7 @@
             <appender-ref ref="Console" />
         </root>
 
-        <logger name="com.bc.webform.app" level="debug" additivity="false">
+        <logger name="com.looseboxes.webform.thym" level="debug" additivity="false">
             <appender-ref ref="RollingFile" />
             <appender-ref ref="Console" />
         </logger>
@@ -58,7 +58,7 @@
             <appender-ref ref="RollingFile" />
         </root>
 
-        <logger name="com.bc.webform.app" level="info" additivity="false">
+        <logger name="com.looseboxes.webform.thym" level="info" additivity="false">
             <appender-ref ref="RollingFile" />
         </logger>
     </springProfile>

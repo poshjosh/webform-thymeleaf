@@ -15,8 +15,6 @@
  */
 package com.looseboxes.webform.thym;
 
-import com.looseboxes.webform.CrudActionNames;
-import com.looseboxes.webform.thym.WebformApplication;
 import com.looseboxes.webform.thym.domain.Blog;
 import com.looseboxes.webform.thym.domain.Post;
 import com.looseboxes.webform.thym.domain.Tag;
@@ -47,13 +45,16 @@ import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import com.looseboxes.webform.CRUDAction;
 
 /**
  * @author USER
  */
 @SpringBootTest(
-        webEnvironment = WebEnvironment.DEFINED_PORT, 
-        classes=WebformApplication.class)
+        webEnvironment = WebEnvironment.RANDOM_PORT,
+        classes={
+            com.looseboxes.webform.thym.WebformApplication.class, 
+            com.looseboxes.webform.WebformBasePackageClass.class})
 public class WebformApplicationIT extends TestBase{
     
     private final TestConfig testConfig = new TestConfig();
@@ -62,11 +63,11 @@ public class WebformApplicationIT extends TestBase{
 
     @Autowired private TestRestTemplate restTemplate;
     
-    @Test
-    public void givenInvalidDomainType_ShouldFail() {
-        this.debug("givenInvalidDomainType_ShouldFail");
-        this.debug(heading("@TODO"));
-    }
+//    @Test
+//    public void givenInvalidDomainType_ShouldFail() {
+//        this.debug("givenInvalidDomainType_ShouldFail");
+//        this.debug(heading("@TODO"));
+//    }
     
     @Test
     public void givenValidBlogInputs_ShouldCompleteAllCRUDActionsSuccessfully() 
@@ -79,8 +80,7 @@ public class WebformApplicationIT extends TestBase{
             throws Exception {
         
         // A blog is required for the post
-        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(
-                CrudActionNames.CREATE, Blog.class);
+        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(CRUDAction.create, Blog.class);
         
         givenValidInputs_ShouldCompleteAllCRUDActionsSuccessfully(Post.class);
     }
@@ -90,37 +90,32 @@ public class WebformApplicationIT extends TestBase{
             throws Exception {
         
         // A blog is required for the post
-        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(
-                CrudActionNames.CREATE, Blog.class);
+        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(CRUDAction.create, Blog.class);
         
         // A post is required for the tag
-        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(
-                CrudActionNames.CREATE, Post.class);
+        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(CRUDAction.create, Post.class);
 
         givenValidInputs_ShouldCompleteAllCRUDActionsSuccessfully(Tag.class);
     }
 
     public void givenValidInputs_ShouldCompleteAllCRUDActionsSuccessfully(
             Class domainType) throws Exception {
-        debug(heading("BEGIN-CRUD"));
         debug("givenValidInputs_ShouldCompleteAllCRUDActionsSuccessfully("+domainType.getName()+")");
+        debug(heading("BEGIN-CRUD"));
+        
+        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(CRUDAction.create, domainType);
+        
+        this.formActionForModel_ShouldReturnValidDocument(CRUDAction.read, domainType);
+
+        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(CRUDAction.update, domainType);
+
+        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(CRUDAction.delete, domainType);
+
         debug(heading("END-CRUD"));
-        
-        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(
-                CrudActionNames.CREATE, domainType);
-        
-        this.formActionForModel_ShouldReturnValidDocument(
-                CrudActionNames.READ, domainType);
-
-        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(
-                CrudActionNames.UPDATE, domainType);
-
-        givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(
-                CrudActionNames.DELETE, domainType);
     }
 
     public void givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully(
-            String action, Class modeltype) throws Exception {
+            CRUDAction action, Class modeltype) throws Exception {
         debug("givenValidFormActionsForModel_ShouldCompleteAllStagesSuccessfully");
         
         final List<String> cookies = new ArrayList<>();
@@ -144,14 +139,14 @@ public class WebformApplicationIT extends TestBase{
     }
     
     public ResponseEntity<String> formActionForModel_ShouldReturnValidDocument(
-            String action, Class type) throws Exception{
+            CRUDAction action, Class type) throws Exception{
         
         return formActionForModel_ShouldReturnValidDocument(
                 action, type, (response) -> {});
     }
     
     public ResponseEntity<String> formActionForModel_ShouldReturnValidDocument(
-            String action, Class type, 
+            CRUDAction action, Class type, 
             Consumer<ResponseEntity<String>> responseHandler) throws Exception{
         
         return formActionForModel_ShouldReturnValidDocument(
@@ -160,7 +155,7 @@ public class WebformApplicationIT extends TestBase{
     }
 
     public ResponseEntity<String> formActionForModel_ShouldReturnValidDocument(
-            String action, Class type, 
+            CRUDAction action, Class type, 
             String suffix, List<String> cookiesForRequest,
             Map params, Consumer<ResponseEntity<String>> responseHandler) 
             throws Exception{
@@ -173,7 +168,7 @@ public class WebformApplicationIT extends TestBase{
     }
     
     public ResponseEntity<String> formActionForModel_ShouldReturnSuccess(
-            String action, Class type) throws Exception{
+            CRUDAction action, Class type) throws Exception{
         
         return this.formActionForModel_ShouldReturnSuccess(
                 action, type, "", Collections.EMPTY_LIST,
@@ -181,7 +176,7 @@ public class WebformApplicationIT extends TestBase{
     }
 
     public ResponseEntity<String> formActionForModel_ShouldReturnSuccess(
-            String action, Class type, 
+            CRUDAction action, Class type, 
             String suffix, List<String> cookies, Map params,
             Consumer<ResponseEntity<String>> responseHandler) throws Exception{
         
@@ -191,7 +186,21 @@ public class WebformApplicationIT extends TestBase{
         final String modelname = this.getTableName(type);
         trace("modelname=" + modelname);       
         
-        String url = testUrls.formUrl(port, action, modelname, suffix);
+        String url;
+        if(suffix == null || suffix.isEmpty()) {
+            url = testUrls.showForm(port, action, modelname);
+        }else {
+            switch(suffix) {
+                case TestUrls.SUFFIX_VALIDATE:
+                    url = testUrls.validateForm(port, action, modelname); 
+                    break;
+                case TestUrls.SUFFIX_SUBMIT:
+                    url = testUrls.submitForm(port, action, modelname); 
+                    break;
+                default:
+                    throw new IllegalArgumentException("Suffix = " + suffix);
+            }
+        }
         trace("url=" + url);       
         
         HttpMethod method = testUrls.getHttpMethod(url);
@@ -207,6 +216,16 @@ public class WebformApplicationIT extends TestBase{
                 givenUrl_ShouldReturnSuccess(url, method, cookies, outputParams);
         
         responseHandler.accept(response);
+        
+        if(TestUrls.SUFFIX_SUBMIT.equals(suffix) && 
+                response.getStatusCode().is2xxSuccessful()) {
+            
+            if(CRUDAction.create.equals(action)) {
+                TestUrls.incrementCount(modelname);
+            }else if(CRUDAction.delete.equals(action)) {
+                TestUrls.decrementCount(modelname);
+            }
+        }
         
         return response;
         }catch(Exception e) {
