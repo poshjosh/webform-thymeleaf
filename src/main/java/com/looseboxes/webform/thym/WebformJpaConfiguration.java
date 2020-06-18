@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @author hp
  */
 @Configuration
-public class JpaConfigurationImpl extends JpaConfiguration{
+public class WebformJpaConfiguration extends JpaConfiguration{
     
     @Autowired private EntityManagerFactory entityMangerFactory;
 

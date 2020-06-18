@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  * @author hp
  */
 @Component
-public class FormEndpointsImpl implements FormEndpoints{
+public class WebformEndpoints implements FormEndpoints{
 
     @Override
     public String getError() {
