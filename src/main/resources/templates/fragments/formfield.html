@@ -84,12 +84,12 @@
     <th:block th:if="${formMember.referencedFormHref != null}">
         <th:block th:if="${formMember.choices == null}">
             <th:block th:text="${formMember.label} + ' is required.'"/>
-            &nbsp;<a th:href="@{{link}?parentfid={parentfid}&targetOnCompletion={toc}(link=${formMember.referencedFormHref},parentfid=${fid},toc=${#httpServletRequest.requestURI})}">
+            &nbsp;<a th:href="@{{link}?parentfid={fid}&targetOnCompletion={reqUri}?fid={fid}(link=${formMember.referencedFormHref},fid=${fid},reqUri=${#httpServletRequest.requestURI})}">
                 Click here to create one</a>
         </th:block>
         <th:block th:unless="${formMember.choices == null}">
             <th:block th:text="'Select a ' + ${formMember.label}"/>
-            &nbsp;<a th:href="@{{link}?parentfid={parentfid}&targetOnCompletion={toc}(link=${formMember.referencedFormHref},parentfid=${fid},toc=${#httpServletRequest.requestURI})}">
+            &nbsp;<a th:href="@{{link}?parentfid={fid}&targetOnCompletion={reqUri}?fid={fid}(link=${formMember.referencedFormHref},fid=${fid},reqUri=${#httpServletRequest.requestURI})}">
             Or click here to create one</a>
         </th:block>
     </th:block>

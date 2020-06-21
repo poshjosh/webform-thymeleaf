@@ -46,6 +46,6 @@ public enum BlogType {
 
     @Override
     public String toString() {
-        return "com.looseboxes.webform.thym.domain.enums.BlogType[ id=" + id + " ]";
+        return "BlogType{" + "id=" + id + ", name=" + name + '}';
     }
 }

@@ -23,7 +23,8 @@
 
             <p class="bold">Asterixed (<font class="red heavy-max"> * </font>) fields are mandatory.</p>
 
-            <form action="#" th:action="@{/{action}/{modelname}/validate(action=${action},modelname=${modelname})}" 
+            <form action="#" 
+                  th:action="@{/{action}/{modelname}/validate(action=${action},modelname=${modelname})}"
                   th:object="${modelobject}" method="post" enctype="multipart/form-data">
 
                 <table class="table">

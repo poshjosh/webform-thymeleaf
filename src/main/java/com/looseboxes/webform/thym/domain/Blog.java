@@ -155,6 +155,6 @@ public class Blog implements Serializable {
 
     @Override
     public String toString() {
-        return "com.looseboxes.webform.thym.domain.Blog[ id=" + id + " ]";
+        return "Blog{" + "id=" + id + ", handle=" + handle + ", description=" + description + ", type=" + type + ", enabled=" + enabled + ", image=" + image + ", timeCreated=" + timeCreated + '}';
     }
 }
