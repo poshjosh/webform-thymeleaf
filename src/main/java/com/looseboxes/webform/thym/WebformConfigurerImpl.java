@@ -1,10 +1,10 @@
 package com.looseboxes.webform.thym;
 
-import com.looseboxes.webform.ModelObjectConfigurer;
-import com.looseboxes.webform.ModelObjectConfigurerService;
-import com.looseboxes.webform.WebformConfigurer;
+import com.looseboxes.webform.config.WebformConfigurer;
 import com.looseboxes.webform.thym.domain.Post;
 import org.springframework.context.annotation.Configuration;
+import com.looseboxes.webform.entity.EntityConfigurer;
+import com.looseboxes.webform.entity.EntityConfigurerService;
 
 /**
  * @author hp
@@ -18,7 +18,7 @@ public class WebformConfigurerImpl implements WebformConfigurer{
      * 
      * In this case we do something mundane. We just set a default post title.
      */
-    private static class PostPreconfigurer implements ModelObjectConfigurer<Post>{
+    private static class PostPreconfigurer implements EntityConfigurer<Post>{
         @Override
         public Post configure(Post post) {
             post.setTitle("My Awesome Post");
@@ -27,7 +27,7 @@ public class WebformConfigurerImpl implements WebformConfigurer{
     }
 
     @Override
-    public void addModelObjectConfigurers(ModelObjectConfigurerService service) {
+    public void addModelObjectConfigurers(EntityConfigurerService service) {
         service.addConfigurer(Post.class, new PostPreconfigurer());
     }
 }

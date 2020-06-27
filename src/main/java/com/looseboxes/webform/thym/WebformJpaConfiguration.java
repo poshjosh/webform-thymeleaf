@@ -1,6 +1,6 @@
 package com.looseboxes.webform.thym;
 
-import com.looseboxes.webform.JpaConfiguration;
+import com.looseboxes.webform.config.JpaConfiguration;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
