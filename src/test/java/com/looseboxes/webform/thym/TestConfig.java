@@ -9,6 +9,7 @@ import com.bc.jpa.spring.TypeFromNameResolver;
 import com.bc.jpa.spring.TypeFromNameResolverUsingClassNames;
 import com.bc.webform.functions.TypeTests;
 import com.bc.webform.functions.TypeTestsImpl;
+import com.looseboxes.webform.util.PropertySuffixes;
 import java.util.Properties;
 import java.util.Set;
 import org.springframework.context.annotation.Bean;
@@ -28,12 +29,16 @@ public class TestConfig extends TestBase{
         return new TypeTestsImpl();
     }
     
-    @Bean public PropertySearch propertyAccess(String prefix, Properties props) {
+    @Bean public PropertySearch propertySearch(String prefix, Properties props) {
         return new PropertySearchImpl(prefix, 
                 new PropertyStoreImpl(props), 
-                this.typeFromNameResolver(),
+                this.propertySuffixes(),
                 ""
         );
+    }
+    
+    @Bean public PropertySuffixes propertySuffixes() {
+        return new PropertySuffixes(this.typeFromNameResolver());
     }
     
     public String [] getEntityPackageNames() {

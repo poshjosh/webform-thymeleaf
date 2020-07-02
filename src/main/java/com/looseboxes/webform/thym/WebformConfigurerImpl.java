@@ -3,8 +3,9 @@ package com.looseboxes.webform.thym;
 import com.looseboxes.webform.config.WebformConfigurer;
 import com.looseboxes.webform.thym.domain.Post;
 import org.springframework.context.annotation.Configuration;
-import com.looseboxes.webform.entity.EntityConfigurer;
-import com.looseboxes.webform.entity.EntityConfigurerService;
+import com.looseboxes.webform.configurers.EntityConfigurer;
+import com.looseboxes.webform.configurers.EntityConfigurerService;
+import com.looseboxes.webform.web.FormRequest;
 
 /**
  * @author hp
@@ -20,14 +21,14 @@ public class WebformConfigurerImpl implements WebformConfigurer{
      */
     private static class PostPreconfigurer implements EntityConfigurer<Post>{
         @Override
-        public Post configure(Post post) {
+        public Post configure(Post post, FormRequest<Post> formRequest) {
             post.setTitle("My Awesome Post");
             return post;
         }
     }
 
     @Override
-    public void addModelObjectConfigurers(EntityConfigurerService service) {
+    public void addEntityConfigurers(EntityConfigurerService service) {
         service.addConfigurer(Post.class, new PostPreconfigurer());
     }
 }

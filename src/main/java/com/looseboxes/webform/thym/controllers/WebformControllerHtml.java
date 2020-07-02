@@ -15,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
  * @author hp
  */
 @Controller
-public class WebformControllerHtml 
-        extends FormControllerHtml
+public class WebformControllerHtml
+        extends FormControllerHtml<Object>
         implements ErrorController{
 
     @RequestMapping("/") 
