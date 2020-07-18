@@ -21,13 +21,13 @@
                 <div class="sidebar-body">
                     <div class="sidebar-item">
                         <a th:text="${'Edit ' + form.displayName}" 
-                           th:href="@{/update/{modelname}?mid={mid}(modelname=${modelname},mid=${mid})}">
+                           th:href="@{/update/{modelname}?id={modelid}(modelname=${modelname},id=${modelid})}">
                             Edit this
                         </a>  
                     </div>
                     <div class="sidebar-item">
                         <a th:text="${'Delete ' + form.displayName}" 
-                           th:href="@{/delete/{modelname}?mid={mid}(modelname=${modelname},mid=${mid})}">
+                           th:href="@{/delete/{modelname}?id={id}(modelname=${modelname},id=${id})}">
                             Delete this
                         </a>  
                     </div>

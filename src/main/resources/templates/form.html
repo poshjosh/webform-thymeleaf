@@ -30,7 +30,7 @@
                 <table class="table">
                     <input type="hidden" name="parentfid" th:value="${parentfid}"/>
                     <input type="hidden" name="fid" th:value="${fid}"/>
-                    <input type="hidden" name="mid" th:value="${mid}"/>
+                    <input type="hidden" name="id" th:value="${modelid}"/>
                     <input type="hidden" name="targetOnCompletion" th:value="${targetOnCompletion}"/>
                     <th:block th:each="modelfield: ${modelfields}">
                         <input type="hidden" name="modelfields" th:value="${modelfield}"/>
