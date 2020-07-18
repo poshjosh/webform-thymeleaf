@@ -1,6 +1,6 @@
 package com.looseboxes.webform.thym;
 
-import com.bc.webform.functions.TypeTests;
+import com.bc.webform.TypeTests;
 import com.looseboxes.webform.Params;
 import com.looseboxes.webform.thym.domain.Blog;
 import com.looseboxes.webform.thym.domain.Post;
@@ -17,11 +17,16 @@ import org.springframework.beans.ConfigurablePropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.http.HttpMethod;
 import com.looseboxes.webform.CRUDAction;
+import com.looseboxes.webform.FormStage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author hp
  */
-public class TestUrls extends TestBase{
+public class TestUrls{
+    
+    private static final Logger LOG = LoggerFactory.getLogger(TestUrls.class);
     
     private static final Map<String, Integer> counts = new HashMap<>();
     public static Integer incrementCount(String modelname) {
@@ -43,26 +48,14 @@ public class TestUrls extends TestBase{
         return count;
     }
     
-    public static final String SUFFIX_VALIDATE = "/validate";
-    public static final String SUFFIX_SUBMIT = "/submit";
+    public static final String SUFFIX_VALIDATE = "/" + FormStage.validate;
+    public static final String SUFFIX_SUBMIT = "/" + FormStage.submit;
     public static final String DATETIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
     
     private final TypeTests typeTests;
 
     public TestUrls(TypeTests typeTests) {
         this.typeTests = Objects.requireNonNull(typeTests);
-    }
-
-    public String showForm(int port, CRUDAction action, String modelname) {
-        return this.formUrl(port, action, modelname, "", getModelId(action, modelname));
-    }
-
-    public String validateForm(int port, CRUDAction action, String modelname) {
-        return this.formUrl(port, action, modelname, TestUrls.SUFFIX_VALIDATE, -1);
-    }
-    
-    public String submitForm(int port, CRUDAction action, String modelname) {
-        return this.formUrl(port, action, modelname, TestUrls.SUFFIX_SUBMIT, -1);
     }
 
     public Map getFormParameters(String url, String modelname) {
@@ -76,11 +69,11 @@ public class TestUrls extends TestBase{
                     try{
                         final Object id = type.getMethod("getId").invoke(v);
                         if(id != null) {
-                            debug("Updated to id: " + id + " from: " + v);
+                            LOG.debug("Updated to id: " + id + " from: " + v);
                             output.put(k, id);
                         }
                     }catch(Exception e) {
-                        warn("Failed to extract id from: " + v + ", reason: " + e);
+                        LOG.warn("Failed to extract id from: " + v + ", reason: " + e);
                     }
                 }else if(java.util.Date.class.isAssignableFrom(type)) {
                 
@@ -151,7 +144,7 @@ public class TestUrls extends TestBase{
             final String name = field.getName();
             output.put(name, b.getPropertyValue(name));
         }
-        trace("Extracted map: " + output + ", from object: " + obj);
+        LOG.trace("Extracted map: " + output + ", from object: " + obj);
         return output;
     }
     
@@ -177,7 +170,19 @@ public class TestUrls extends TestBase{
         return url.contains(TestUrls.SUFFIX_VALIDATE) || url.contains(TestUrls.SUFFIX_SUBMIT);
     }
     
+    public String formUrl(int port, CRUDAction action, String modelname, String suffix) {
+        if(suffix == null || "".equals(suffix)) {
+            return this.formUrl(port, action, modelname, "", getModelId(action, modelname));
+        }else{
+            return this.formUrl(port, action, modelname, suffix, -1);
+        }
+    }
+    
     public String formUrl(int port, CRUDAction action, String modelname, String suffix, int modelid) {
+    
+        if(suffix == null) {
+            suffix = "";
+        }
         
         String url = this.baseCrud(port, action, modelname) + suffix;
         

@@ -7,8 +7,8 @@ import com.looseboxes.webform.util.PropertySearchImpl;
 import com.looseboxes.webform.util.PropertySearch;
 import com.bc.jpa.spring.TypeFromNameResolver;
 import com.bc.jpa.spring.TypeFromNameResolverUsingClassNames;
-import com.bc.webform.functions.TypeTests;
-import com.bc.webform.functions.TypeTestsImpl;
+import com.bc.webform.TypeTests;
+import com.bc.webform.TypeTestsImpl;
 import com.looseboxes.webform.util.PropertySuffixes;
 import java.util.Properties;
 import java.util.Set;
@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * @author hp
  */
-public class TestConfig extends TestBase{
+public class TestConfig{
     
 //    private static final Logger LOG = LoggerFactory.getLogger(TestConfig.class);
     

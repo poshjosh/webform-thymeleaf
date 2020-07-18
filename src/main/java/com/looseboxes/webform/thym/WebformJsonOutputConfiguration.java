@@ -1,6 +1,6 @@
 package com.looseboxes.webform.thym;
 
-import com.bc.webform.functions.TypeTests;
+import com.bc.webform.TypeTests;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.looseboxes.webform.json.WebformJsonOutputConfigurer;
