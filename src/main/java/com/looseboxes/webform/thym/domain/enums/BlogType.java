@@ -46,6 +46,6 @@ public enum BlogType {
 
     @Override
     public String toString() {
-        return "BlogType{" + "id=" + id + ", name=" + name + '}';
+        return name;
     }
 }
