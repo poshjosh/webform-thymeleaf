@@ -5,18 +5,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
       layout:decorate="~{base}">
     <head>
-        <meta name="description" th:content="'Enter ' + ${form.displayName} + ' Form Details'"/>
-        <title>Enter [[${form.displayName}]] Form Details</title>
+        <meta name="description" th:content="'Enter ' + ${FormConfig.form.displayName} + ' Form Details'"/>
+        <title>Enter [[${FormConfig.form.displayName}]] Form Details</title>
     </head>
     <body>
         
         <th:block layout:fragment="breadcrumb">
             <span class="breadcrumb-item"><a th:href="@{/}">Home</a></span>
-            &emsp;&gt;&emsp;<span class="breadcrumb-item">[[${form.displayName}]] Form</span>
+            &emsp;&gt;&emsp;<span class="breadcrumb-item">[[${FormConfig.form.displayName}]] Form</span>
         </th:block>
         
         <th:block layout:fragment="page_content_heading">
-            <th:block th:text="'Enter ' + ${form.displayName} + ' Details'"/>
+            <th:block th:text="'Enter ' + ${FormConfig.form.displayName} + ' Details'"/>
         </th:block>
         
         <th:block layout:fragment="page_content">
@@ -24,18 +24,18 @@
             <p class="bold">Asterixed (<font class="red heavy-max"> * </font>) fields are mandatory.</p>
 
             <form action="#" 
-                  th:action="@{/{action}/{modelname}/validate(action=${action},modelname=${modelname})}"
+                  th:action="@{/{action}/{modelname}/validate(action=${FormConfig.action},modelname=${FormConfig.modelname})}"
                   th:object="${modelobject}" method="post" enctype="multipart/form-data">
 
                 <table class="table">
-                    <input type="hidden" name="parentfid" th:value="${parentfid}"/>
-                    <input type="hidden" name="fid" th:value="${fid}"/>
-                    <input type="hidden" name="id" th:value="${modelid}"/>
-                    <input type="hidden" name="targetOnCompletion" th:value="${targetOnCompletion}"/>
-                    <th:block th:each="modelfield: ${modelfields}">
+                    <input type="hidden" name="parentfid" th:value="${FormConfig.parentfid}"/>
+                    <input type="hidden" name="fid" th:value="${FormConfig.fid}"/>
+                    <input type="hidden" name="id" th:value="${FormConfig.id}"/>
+                    <input type="hidden" name="targetOnCompletion" th:value="${FormConfig.targetOnCompletion}"/>
+                    <th:block th:each="modelfield: ${FormConfig.modelfields}">
                         <input type="hidden" name="modelfields" th:value="${modelfield}"/>
                     </th:block>
-                    <th:block th:each="formMember: ${form.members}">
+                    <th:block th:each="formMember: ${FormConfig.form.members}">
                         <th:block th:if="${formMember.type == 'hidden'}">
                             <input type="hidden" name="${formMember.name}" th:value="${formMember.value}"/>
                         </th:block>

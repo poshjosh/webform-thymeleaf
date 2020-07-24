@@ -17,9 +17,9 @@ import org.springframework.beans.ConfigurablePropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.http.HttpMethod;
 import com.looseboxes.webform.CRUDAction;
-import com.looseboxes.webform.FormStage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.looseboxes.webform.FormStages;
 
 /**
  * @author hp
@@ -48,8 +48,8 @@ public class TestUrls{
         return count;
     }
     
-    public static final String SUFFIX_VALIDATE = "/" + FormStage.validate;
-    public static final String SUFFIX_SUBMIT = "/" + FormStage.submit;
+    public static final String SUFFIX_VALIDATE = "/" + FormStages.validate;
+    public static final String SUFFIX_SUBMIT = "/" + FormStages.submit;
     public static final String DATETIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
     
     private final TypeTests typeTests;

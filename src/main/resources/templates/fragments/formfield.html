@@ -12,18 +12,18 @@
 
                 <option disabled th:text="'Select ' + ${formMember.label}"></option>
 
-                <th:block th:each="entry: ${formMember.choices}">
+                <th:block th:each="choice: ${formMember.choices}">
                     <th:block th:if="${formMember.multiple}">
-                        <option th:selected="${formMember.value != null && #lists.contains(formMember.value, entry.key)}"
+                        <option th:selected="${formMember.value != null && #lists.contains(formMember.value, choice.value)}"
                                 th:name="${formMember.name}"
-                                th:value="${entry.key}" 
-                                th:text="${entry.value}"/>
+                                th:value="${choice.value}" 
+                                th:text="${choice.text}"/>
                     </th:block>
                     <th:block th:unless="${formMember.multiple}">
-                        <option th:selected="${formMember.value == entry.key || formMember.value == entry.value}"
+                        <option th:selected="${formMember.value == choice.value || formMember.value == choice.text}"
                                 th:name="${formMember.name}"
-                                th:value="${entry.key}" 
-                                th:text="${entry.value}"/>
+                                th:value="${choice.value}" 
+                                th:text="${choice.text}"/>
                     </th:block>
                 </th:block>
 
@@ -84,12 +84,12 @@
     <th:block th:if="${formMember.referencedFormHref != null}">
         <th:block th:if="${formMember.choices == null}">
             <th:block th:text="${formMember.label} + ' is required.'"/>
-            &nbsp;<a th:href="@{{link}?parentfid={fid}&targetOnCompletion={reqUri}?fid={fid}(link=${formMember.referencedFormHref},fid=${fid},reqUri=${#httpServletRequest.requestURI})}">
+            &nbsp;<a th:href="@{{link}?parentfid={fid}&targetOnCompletion={reqUri}?fid={fid}(link=${formMember.referencedFormHref},fid=${FormConfig.fid},reqUri=${#httpServletRequest.requestURI})}">
                 Click here to create one</a>
         </th:block>
         <th:block th:unless="${formMember.choices == null}">
             <th:block th:text="'Select a ' + ${formMember.label}"/>
-            &nbsp;<a th:href="@{{link}?parentfid={fid}&targetOnCompletion={reqUri}?fid={fid}(link=${formMember.referencedFormHref},fid=${fid},reqUri=${#httpServletRequest.requestURI})}">
+            &nbsp;<a th:href="@{{link}?parentfid={fid}&targetOnCompletion={reqUri}?fid={fid}(link=${formMember.referencedFormHref},fid=${FormConfig.fid},reqUri=${#httpServletRequest.requestURI})}">
             Or click here to create one</a>
         </th:block>
     </th:block>

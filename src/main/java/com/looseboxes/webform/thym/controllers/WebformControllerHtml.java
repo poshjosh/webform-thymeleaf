@@ -1,6 +1,6 @@
 package com.looseboxes.webform.thym.controllers;
 
-import com.looseboxes.webform.controllers.FormControllerHtml;
+import com.looseboxes.webform.controllers.FormControllerHtm;
 import com.looseboxes.webform.exceptions.RouteException;
 import com.looseboxes.webform.exceptions.ResourceNotFoundException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class WebformControllerHtml
-        extends FormControllerHtml<Object>
+        extends FormControllerHtm<Object>
         implements ErrorController{
 
     @RequestMapping("/") 

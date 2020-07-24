@@ -5,14 +5,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
       layout:decorate="~{base}">
     <head>
-        <meta name="description" th:content="'Displaying details for selected ' + ${form.displayName}"/>
-        <title>Displaying details for selected [[${form.displayName}]]</title>
+        <meta name="description" th:content="'Displaying details for selected ' + ${FormConfig.form.displayName}"/>
+        <title>Displaying details for selected [[${FormConfig.form.displayName}]]</title>
     </head>
     <body>
         
         <th:block layout:fragment="breadcrumb">
             <span class="breadcrumb-item"><a th:href="@{/}">Home</a></span>
-            &emsp;&gt;&emsp;<span class="breadcrumb-item">Selected [[${form.displayName}]] Details</span>
+            &emsp;&gt;&emsp;<span class="breadcrumb-item">Selected [[${FormConfig.form.displayName}]] Details</span>
         </th:block>
         
         <th:block layout:fragment="sidebar">
@@ -20,14 +20,14 @@
                 <div class="sidebar-heading face-0">Update</div>
                 <div class="sidebar-body">
                     <div class="sidebar-item">
-                        <a th:text="${'Edit ' + form.displayName}" 
-                           th:href="@{/update/{modelname}?id={modelid}(modelname=${modelname},id=${modelid})}">
+                        <a th:text="${'Edit ' + FormConfig.form.displayName}" 
+                           th:href="@{/update/{modelname}?id={modelid}(modelname=${FormConfig.modelname},id=${modelid})}">
                             Edit this
                         </a>  
                     </div>
                     <div class="sidebar-item">
-                        <a th:text="${'Delete ' + form.displayName}" 
-                           th:href="@{/delete/{modelname}?id={id}(modelname=${modelname},id=${id})}">
+                        <a th:text="${'Delete ' + FormConfig.form.displayName}" 
+                           th:href="@{/delete/{modelname}?id={id}(modelname=${FormConfig.modelname},id=${FormConfig.id})}">
                             Delete this
                         </a>  
                     </div>
@@ -36,16 +36,16 @@
         </th:block>
 
         <th:block layout:fragment="page_content_heading">
-            <th:block th:text="'Diplaying details for selected ' + ${form.displayName}"/>
+            <th:block th:text="'Diplaying details for selected ' + ${FormConfig.form.displayName}"/>
         </th:block>
 
         <th:block layout:fragment="page_content">
             
             <form>
                 <table class="table">
-                    <th:block th:each="formMember: ${form.members}">
+                    <th:block th:each="formMember: ${FormConfig.form.members}">
                         
-                        <th:block th:if="${modelfields == null || modelfields.empty || #lists.contains(modelfields, formMember.name)}">
+                        <th:block th:if="${FormConfig.modelfields == null || FormConfig.modelfields.empty || #lists.contains(FormConfig.modelfields, formMember.name)}">
                             <tr class="form-row" th:insert="fragments/formrow.html :: formRow(formMember=${formMember}, disabled='true')">
                             </tr>
                         </th:block>

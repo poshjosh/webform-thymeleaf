@@ -242,7 +242,7 @@ public class WebformApplicationIT extends RestTestBase{
         
         HttpMethod method = testUrls.getHttpMethod(url);
         LOG.trace("HttpMethod: {}", method);       
-        try{
+
         final Map paramsFromForm = testUrls.getFormParameters(url, modelname);
         LOG.trace("Params from form: {}", paramsFromForm);       
         
@@ -265,10 +265,6 @@ public class WebformApplicationIT extends RestTestBase{
         }
         
         return response;
-        }catch(Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
     }
     
     private Consumer<ResponseEntity<String>> getResponseHandler(

@@ -47,9 +47,9 @@
                             </h3>
 
                             <p id="errors" class="errormessage" 
-                               th:if="${webform.messages.errors}" th:each="error: ${errors}" th:text="${error}"/>
+                               th:if="${FormConfig.errors}" th:each="error: ${FormConfig.errors}" th:text="${error}"/>
                             <p id="infos" class="infomessage" 
-                               th:if="${webform.messages.infos}" th:each="message: ${messages}" th:text="${message}"/>
+                               th:if="${FormConfig.infos}" th:each="info: ${FormConfig.infos}" th:text="${info}"/>
 
                             <div layout:fragment="page_content" id="page_content"></div>
                         </td>    

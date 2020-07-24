@@ -1,12 +1,10 @@
 package com.looseboxes.webform.thym;
 
 import com.looseboxes.webform.FormEndpoints;
-import org.springframework.stereotype.Component;
 
 /**
  * @author hp
  */
-@Component
 public class WebformEndpoints implements FormEndpoints{
 
     @Override
