@@ -1,6 +1,8 @@
 package com.looseboxes.webform.thym;
 
+import com.bc.jpa.spring.JpaConfiguration;
 import com.looseboxes.webform.FormEndpoints;
+import com.looseboxes.webform.thym.domain.enums.BlogType;
 import com.looseboxes.webform.util.PrintAppInfo;
 import com.looseboxes.webform.web.FormConfigDTO;
 import com.looseboxes.webform.web.HtmResponseHandler;
@@ -32,5 +34,20 @@ public class WebformApplication {
 
     @Bean FormEndpoints formEndpoints() {
         return new WebformEndpoints();
+    }
+    
+    /**
+     * Use this to add additional packages to search for entity classes.
+     * That is, in addition to those specified in the
+     * {@link javax.persistence.EntityManagerFactory EntityManagerFactory} i.e
+     * the <tt>META-INF/persistence.xml</tt> file.
+     * 
+     * In this case we add the package which contains enum types, as enum types 
+     * are often not captured whenever database is generated from existing entity 
+     * classes. 
+     */
+    @Bean JpaConfiguration.AdditionalEntityPackageNamesSupplier 
+            additionalEntityPackageNamesSupplier() {
+        return () -> new String[]{BlogType.class.getPackage().getName()};        
     }
 }
